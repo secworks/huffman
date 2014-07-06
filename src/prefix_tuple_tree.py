@@ -52,6 +52,31 @@ VERBOSE = True
 
 
 #-------------------------------------------------------------------
+# class Node
+#
+# Our basic node class (struct) used to create the tree.
+#-------------------------------------------------------------------
+class Node:
+    def __init__(self, char, weight):
+        self.char = char
+        self.weight = weight
+        self.lchild = None
+        self.rchild = None
+
+    def print_fields(self):
+        print("Char: %c, weight = %d" % (self.char, self.weight))
+        if self.lchild != None:
+            print("Left child contains subtree")
+        else:
+            print("Left child contains no subtree")
+
+        if self.rchild != None:
+            print("Right child contains subtree")
+        else:
+            print("Right child contains no subtree")
+
+
+#-------------------------------------------------------------------
 # extract_prefix_codes()
 #
 # Given a prefix tree, extracts the prefix codes for all
@@ -78,14 +103,18 @@ def gen_prefix_tree(tlist):
 
 
 #-------------------------------------------------------------------
-# gen_tuple_list()
+# gen_node_list()
 #
-# Generates a list of max_types tuples. Each tuple contains a
-# randomly selected frequency of a character from the set of
-# characters [chr(0) .. chr((max_types - 1))]
+# Generates a list of max_types numbder of nodes. Each tuple
+# contains a randomly selected frequency of a character from the
+# set of characters [chr(0) .. chr((max_types - 1))]
 #-------------------------------------------------------------------
-def gen_tuple_list(max_types, max_nums):
-    return [(random.randint(0,max_nums), chr(i), '') for i in range(max_types)]
+def gen_node_list(max_types, max_nums):
+    my_list = []
+    for i  in range(max_types):
+        my_node = Node(chr(i), random.randint(0,max_nums))
+        my_list.append(my_node)
+    return my_list
 
 
 #-------------------------------------------------------------------
@@ -103,22 +132,23 @@ def main():
     
     max_types = 199
     max_nums  = 10000
-    my_list = gen_tuple_list(max_types, max_nums)
-    my_tree = gen_prefix_tree(my_list[:])
-    my_codes = extract_prefix_codes(my_tree)
+    my_list = gen_node_list(max_types, max_nums)
     
-    my_list.sort(reverse=True)
-    print("The generated tuple list:")
-    print(my_list)
+    # my_tree = gen_prefix_tree(my_list[:])
+    # my_codes = extract_prefix_codes(my_tree)
+    
+    # my_list.sort(reverse=True)
+    print("The generated node list:")
+    for element in my_list:
+        element.print_fields()
     print("")
     
-    print("The generated prefix tree:")
-    print(my_tree)
-    print("")
-    
-    print("The corresponding prefix codes:")
-    print(my_codes)
-    print("")
+#    print("The generated prefix tree:")
+#    print(my_tree)
+#    print("")
+#    print("The corresponding prefix codes:")
+#    print(my_codes)
+#    print("")
 
 
 #-------------------------------------------------------------------
