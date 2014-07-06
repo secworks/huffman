@@ -103,6 +103,12 @@ def gen_prefix_tree(tlist):
 
 
 #-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def sort_node_list(nlist):
+    pass
+
+
+#-------------------------------------------------------------------
 # gen_node_list()
 #
 # Generates a list of max_types numbder of nodes. Each tuple
@@ -133,6 +139,7 @@ def main():
     max_types = 199
     max_nums  = 10000
     my_list = gen_node_list(max_types, max_nums)
+    my_list = sort_node_list(my_list)
     
     # my_tree = gen_prefix_tree(my_list[:])
     # my_codes = extract_prefix_codes(my_tree)
