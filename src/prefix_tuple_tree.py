@@ -71,9 +71,9 @@ def gen_prefix_tree(tlist):
     while (len(tlist) > 1):
         print(len(tlist))
         tlist.sort(reverse=True)
-        (w1, chr1) = tlist.pop()
-        (w2, chr2) = tlist.pop()
-        tlist.append((w1 + w2, ((w1, chr1), (w2, chr2))))
+        (w1, chr1, code1) = tlist.pop()
+        (w2, chr2, code2) = tlist.pop()
+        tlist.append((w1 + w2, ((w1, chr1, code1+'0'), (w2, chr2, code2+'1')), ''))
     return tlist.pop()
 
 
@@ -85,7 +85,7 @@ def gen_prefix_tree(tlist):
 # characters [chr(0) .. chr((max_types - 1))]
 #-------------------------------------------------------------------
 def gen_tuple_list(max_types, max_nums):
-    return [(random.randint(0,max_nums), chr(i)) for i in range(max_types)]
+    return [(random.randint(0,max_nums), chr(i), '') for i in range(max_types)]
 
 
 #-------------------------------------------------------------------
