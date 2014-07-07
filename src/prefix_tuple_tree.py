@@ -62,9 +62,15 @@ class Node:
         self.weight = weight
         self.lchild = None
         self.rchild = None
+        self.children = 0
 
     def print_fields(self):
-        print("Char: %c, weight = %d" % (self.char, self.weight))
+        if self.char != None:
+            print("Char: %c, weight = %d" % (self.char, self.weight))
+        else:
+            print("Inner node with %d children and total weight %d" %\
+                  (self.children, self.weight))
+
         if self.lchild != None:
             print("Left child contains subtree")
         else:
@@ -92,21 +98,28 @@ def extract_prefix_codes(tree):
 # Given a list of tuples with frequency (weight) for a character
 # the function returns the corresponding tuple based prefix tree.
 #-------------------------------------------------------------------
-def gen_prefix_tree(tlist):
-    while (len(tlist) > 1):
-        print(len(tlist))
-        tlist.sort(reverse=True)
-        (w1, chr1, code1) = tlist.pop()
-        (w2, chr2, code2) = tlist.pop()
-        tlist.append((w1 + w2, ((w1, chr1, code1+'0'), (w2, chr2, code2+'1')), ''))
-    return tlist.pop()
+def gen_prefix_tree(nlist):
+    while (len(nlist) > 1):
+        print("Length of prefix list: %d" % len(nlist))
+        nlist = sort_node_list(nlist)
+        node1 = nlist.pop()
+        node2 = nlist.pop()
+        print("node1 weigth: %d" % node1.weight)
+        print("node2 weigth: %d" % node2.weight)
+
+        new_node = Node(None, (node1.weight + node2.weight))
+        new_node.lchild = node1
+        new_node.rchild = node2
+        new_node.children = 2 + node1.children + node2.children
+        nlist.append(new_node)
+    return nlist.pop()
 
 
 #-------------------------------------------------------------------
 # sort_node_list()
 #
-# Given a list of nodes returns a list with the nodes sorted
-# by weight.
+# Given a list of nodes returns a list with the nodes
+# sorted by weight in decreasing order.
 #-------------------------------------------------------------------
 def sort_node_list(nlist):
     nodes = 0
@@ -119,7 +132,7 @@ def sort_node_list(nlist):
             new_list.append(node)
         else:
             i = 0
-            while ((i < len(new_list) and (node.weight >= new_list[i].weight))):
+            while ((i < len(new_list) and (node.weight < new_list[i].weight))):
                 i += 1
             new_list = new_list[:i] + [node] + new_list[i:]
     print(len(new_list))
@@ -162,28 +175,27 @@ def main():
 #        element.print_fields()
 #    print("")
 
-    my_sorted_list = sort_node_list(my_list)
-    print("Length of sorted list: %d" % len(my_sorted_list))
+    my_list = sort_node_list(my_list)
+    print("Length of sorted list: %d" % len(my_list))
     print("List after sort:")
-    for element in my_sorted_list:
+    for element in my_list:
         element.print_fields()
     print("")
 
-    # my_tree = gen_prefix_tree(my_list[:])
-    # my_codes = extract_prefix_codes(my_tree)
+    my_tree = gen_prefix_tree(my_list)
+    my_codes = extract_prefix_codes(my_tree)
     
-    # my_list.sort(reverse=True)
     print("The generated node list:")
     for element in my_list:
         element.print_fields()
     print("")
     
-#    print("The generated prefix tree:")
-#    print(my_tree)
-#    print("")
-#    print("The corresponding prefix codes:")
-#    print(my_codes)
-#    print("")
+    print("The generated prefix tree:")
+    my_tree.print_fields()
+    print("")
+    print("The corresponding prefix codes:")
+    print(my_codes)
+    print("")
 
 
 #-------------------------------------------------------------------
