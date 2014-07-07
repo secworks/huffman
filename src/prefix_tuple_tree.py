@@ -83,13 +83,33 @@ class Node:
 
 
 #-------------------------------------------------------------------
+# get_node_codes()
+#
+# Get a list of tuples with the prefix codes for a char in a
+# given node as well as for its subnodes.
+#-------------------------------------------------------------------
+def get_node_codes(prefix, ptree):
+    if ptree.char == None:
+        left_list = []
+        right_list = []
+        if ptree.lchild != None:
+          left_list = get_node_codes(prefix + '1', ptree.lchild)
+        if ptree.rchild != None:
+          right_list = get_node_codes(prefix + '0', ptree.rchild)
+        return left_list + right_list
+    else:
+        return [(ptree.char, prefix)]
+
+
+#-------------------------------------------------------------------
 # extract_prefix_codes()
 #
 # Given a prefix tree, extracts the prefix codes for all
 # leaves. The prefix codes are returned as a dictionary.
 #-------------------------------------------------------------------
 def extract_prefix_codes(ptree):
-    return {}
+    left_list = get_node_codes(prefix + '1', ptree.lchild)
+    right_list = get_node_codes(prefix + '0', ptree.rchild)
 
 
 #-------------------------------------------------------------------
