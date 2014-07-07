@@ -105,7 +105,13 @@ def gen_prefix_tree(tlist):
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def sort_node_list(nlist):
-    pass
+    new_list = []
+    for node in new_list.pop():
+        i = 0
+        while node.weight < new_list[i].weight:
+            i += 1
+        new_list = new_list[:i] + node + new_list[i:]
+    return new_list
 
 
 #-------------------------------------------------------------------
@@ -139,8 +145,13 @@ def main():
     max_types = 199
     max_nums  = 10000
     my_list = gen_node_list(max_types, max_nums)
+    print("List before sort:")
+    print(my_list)
+
     my_list = sort_node_list(my_list)
-    
+    print("List after sort:")
+    print(my_list)
+
     # my_tree = gen_prefix_tree(my_list[:])
     # my_codes = extract_prefix_codes(my_tree)
     
