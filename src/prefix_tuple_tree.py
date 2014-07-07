@@ -108,8 +108,17 @@ def get_node_codes(prefix, ptree):
 # leaves. The prefix codes are returned as a dictionary.
 #-------------------------------------------------------------------
 def extract_prefix_codes(ptree):
-    left_list = get_node_codes(prefix + '1', ptree.lchild)
-    right_list = get_node_codes(prefix + '0', ptree.rchild)
+    left_list = get_node_codes('1', ptree.lchild)
+    right_list = get_node_codes('0', ptree.rchild)
+    prefix_dict = {}
+
+    for (char, prefix) in left_list:
+        prefix_dict[char] = prefix
+
+    for (char, prefix) in right_list:
+        prefix_dict[char] = prefix
+
+    return prefix_dict
 
 
 #-------------------------------------------------------------------
@@ -175,6 +184,35 @@ def gen_node_list(max_types, max_nums):
 
 
 #-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def print_prefix_codes(prefix_codes):
+    min_len = 100000000
+    max_len = 0
+
+    for key in prefix_codes:
+        char = key
+        prefix = prefix_codes[key]
+
+        print("Char: %c, prefix: %s, prefix length: %d" %\
+              (char, prefix, len(prefix)))
+        if len(prefix) < min_len:
+            min_len = len(prefix)
+            min_char = char
+            min_prefix = prefix
+
+        if len(prefix) > min_len:
+            max_len = len(prefix)
+            max_char = char
+            max_prefix = prefix
+
+
+    print("Minimum prefix length %d for char %c and prefix %s" %\
+          (min_len, min_char, min_prefix))
+    print("Maximum prefix length %d for char %c and prefix %s" %\
+          (max_len, max_char, max_prefix))
+
+
+#-------------------------------------------------------------------
 # main()
 #
 # Generates a list of different (frequency, char) tuples and feed
@@ -213,8 +251,9 @@ def main():
     print("The generated prefix tree:")
     my_tree.print_fields()
     print("")
+
     print("The corresponding prefix codes:")
-    print(my_codes)
+    print_prefix_codes(my_codes)
     print("")
 
 
