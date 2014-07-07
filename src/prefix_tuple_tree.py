@@ -191,25 +191,27 @@ def print_prefix_codes(prefix_codes):
 
     for key in prefix_codes:
         char = key
-        prefix = prefix_codes[key]
+        (prefix, weight) = prefix_codes[key]
 
-        print("Char: %c, prefix: %s, prefix length: %d" %\
-              (char, prefix, len(prefix)))
+        print("Char: %c, prefix: %s, prefix length: %d, weight %d" %\
+              (char, prefix, len(prefix), weight))
         if len(prefix) < min_len:
             min_len = len(prefix)
             min_char = char
             min_prefix = prefix
+            min_weight = weight
 
-        if len(prefix) > min_len:
+        if len(prefix) > max_len:
             max_len = len(prefix)
             max_char = char
             max_prefix = prefix
+            max_weight = weight
 
-
-    print("Minimum prefix length %d for char %c and prefix %s" %\
-          (min_len, min_char, min_prefix))
-    print("Maximum prefix length %d for char %c and prefix %s" %\
-          (max_len, max_char, max_prefix))
+    print("")
+    print("Minimum prefix length %d for char %c and prefix %s with weight %d" %\
+          (min_len, min_char, min_prefix, min_weight))
+    print("Maximum prefix length %d for char %c and prefix %s with weight %d" %\
+          (max_len, max_char, max_prefix, max_weight))
 
 
 #-------------------------------------------------------------------
