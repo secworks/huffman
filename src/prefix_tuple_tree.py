@@ -98,7 +98,7 @@ def get_node_codes(prefix, ptree):
           right_list = get_node_codes(prefix + '0', ptree.rchild)
         return left_list + right_list
     else:
-        return [(ptree.char, prefix)]
+        return [(ptree.char, prefix, ptree.weight)]
 
 
 #-------------------------------------------------------------------
@@ -112,11 +112,11 @@ def extract_prefix_codes(ptree):
     right_list = get_node_codes('0', ptree.rchild)
     prefix_dict = {}
 
-    for (char, prefix) in left_list:
-        prefix_dict[char] = prefix
+    for (char, prefix, weight) in left_list:
+        prefix_dict[char] = (prefix, weight)
 
-    for (char, prefix) in right_list:
-        prefix_dict[char] = prefix
+    for (char, prefix, weight) in right_list:
+        prefix_dict[char] = (prefix, weight)
 
     return prefix_dict
 
