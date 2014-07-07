@@ -184,17 +184,25 @@ def gen_node_list(max_types, max_nums):
 
 
 #-------------------------------------------------------------------
+# print_prefix_codes()
+#
+# Given a db with prefix codes for a set of keys (chars) will
+# print the contents of the db as well as some interesting
+# statistics.
 #-------------------------------------------------------------------
 def print_prefix_codes(prefix_codes):
     min_len = 100000000
     max_len = 0
-
+    num_bits = 0
     for key in prefix_codes:
         char = key
         (prefix, weight) = prefix_codes[key]
+        num_bits += len(prefix) * weight
 
-        print("Char: %c, prefix: %s, prefix length: %d, weight %d" %\
-              (char, prefix, len(prefix), weight))
+        if VERBOSE:
+            print("Char: %c, prefix: %s, prefix length: %d, weight %d" %\
+                  (char, prefix, len(prefix), weight))
+
         if len(prefix) < min_len:
             min_len = len(prefix)
             min_char = char
@@ -212,6 +220,8 @@ def print_prefix_codes(prefix_codes):
           (min_len, min_char, min_prefix, min_weight))
     print("Maximum prefix length %d for char %c and prefix %s with weight %d" %\
           (max_len, max_char, max_prefix, max_weight))
+    print("Total number of bits to code all data: %d" % num_bits)
+    print("")
 
 
 #-------------------------------------------------------------------
