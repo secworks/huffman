@@ -48,7 +48,7 @@ import random
 #-------------------------------------------------------------------
 # Constants.
 #-------------------------------------------------------------------
-VERBOSE = True
+VERBOSE = False
 
 
 #-------------------------------------------------------------------
@@ -129,18 +129,23 @@ def extract_prefix_codes(ptree):
 #-------------------------------------------------------------------
 def gen_prefix_tree(nlist):
     while (len(nlist) > 1):
-        print("Length of prefix list: %d" % len(nlist))
+        if VERBOSE:
+            print("Length of prefix list: %d" % len(nlist))
+
         nlist = sort_node_list(nlist)
         node1 = nlist.pop()
         node2 = nlist.pop()
-        print("node1 weigth: %d" % node1.weight)
-        print("node2 weigth: %d" % node2.weight)
+
+        if VERBOSE:
+            print("node1 weigth: %d" % node1.weight)
+            print("node2 weigth: %d" % node2.weight)
 
         new_node = Node(None, (node1.weight + node2.weight))
         new_node.lchild = node1
         new_node.rchild = node2
         new_node.children = 2 + node1.children + node2.children
         nlist.append(new_node)
+
     return nlist.pop()
 
 
@@ -153,7 +158,8 @@ def gen_prefix_tree(nlist):
 def sort_node_list(nlist):
     nodes = 0
     new_list = []
-    print("Length of given list: %d" % len(nlist))
+    if VERBOSE:
+        print("Length of given list: %d" % len(nlist))
     for i in range(len(nlist)):
         node = nlist.pop()
         nodes += 1
@@ -164,8 +170,59 @@ def sort_node_list(nlist):
             while ((i < len(new_list) and (node.weight < new_list[i].weight))):
                 i += 1
             new_list = new_list[:i] + [node] + new_list[i:]
-    print(len(new_list))
+
     return new_list
+
+
+#-------------------------------------------------------------------
+# print_prefix_codes()
+#
+# Given a db with prefix codes for a set of keys (chars) will
+# print the contents of the db as well as some interesting
+# statistics.
+#-------------------------------------------------------------------
+def print_prefix_codes(prefix_codes):
+    min_len = 100000000
+    max_len = 0
+    num_raw_bits = 0
+    num_prefix_bits = 0
+
+    if VERBOSE:
+        print("The corresponding prefix codes:")
+    for key in prefix_codes:
+        char = key
+        (prefix, weight) = prefix_codes[key]
+        num_prefix_bits += len(prefix) * weight
+        num_raw_bits +=  weight * 8
+        if VERBOSE:
+            print("Char: %c, prefix: %s, prefix length: %d, weight %d" %\
+                  (char, prefix, len(prefix), weight))
+
+        if len(prefix) < min_len:
+            min_len = len(prefix)
+            min_char = char
+            min_prefix = prefix
+            min_weight = weight
+
+        if len(prefix) > max_len:
+            max_len = len(prefix)
+            max_char = char
+            max_prefix = prefix
+            max_weight = weight
+
+    reduction = int((1 - (num_prefix_bits / num_raw_bits)) * 100)
+
+    print("")
+    print("Minimum prefix length %d for char %c and prefix %s with weight %d" %\
+          (min_len, min_char, min_prefix, min_weight))
+    print("Maximum prefix length %d for char %c and prefix %s with weight %d" %\
+          (max_len, max_char, max_prefix, max_weight))
+
+    print("")
+    print("Total number of bits in raw data:             %d" % num_raw_bits)
+    print("Total number of bits to prefix code all data: %d" % num_prefix_bits)
+    print("Reduction:                                    %d percent" % reduction)
+    print("")
 
 
 #-------------------------------------------------------------------
@@ -184,47 +241,6 @@ def gen_node_list(max_types, max_nums):
 
 
 #-------------------------------------------------------------------
-# print_prefix_codes()
-#
-# Given a db with prefix codes for a set of keys (chars) will
-# print the contents of the db as well as some interesting
-# statistics.
-#-------------------------------------------------------------------
-def print_prefix_codes(prefix_codes):
-    min_len = 100000000
-    max_len = 0
-    num_bits = 0
-    for key in prefix_codes:
-        char = key
-        (prefix, weight) = prefix_codes[key]
-        num_bits += len(prefix) * weight
-
-        if VERBOSE:
-            print("Char: %c, prefix: %s, prefix length: %d, weight %d" %\
-                  (char, prefix, len(prefix), weight))
-
-        if len(prefix) < min_len:
-            min_len = len(prefix)
-            min_char = char
-            min_prefix = prefix
-            min_weight = weight
-
-        if len(prefix) > max_len:
-            max_len = len(prefix)
-            max_char = char
-            max_prefix = prefix
-            max_weight = weight
-
-    print("")
-    print("Minimum prefix length %d for char %c and prefix %s with weight %d" %\
-          (min_len, min_char, min_prefix, min_weight))
-    print("Maximum prefix length %d for char %c and prefix %s with weight %d" %\
-          (max_len, max_char, max_prefix, max_weight))
-    print("Total number of bits to code all data: %d" % num_bits)
-    print("")
-
-
-#-------------------------------------------------------------------
 # main()
 #
 # Generates a list of different (frequency, char) tuples and feed
@@ -237,36 +253,38 @@ def main():
     print("====================================")
     print
     
-    max_types = 199
-    max_nums  = 10000
+    max_types = 255
+    max_nums  = int(1E8)
+
+    print("Generating %d nodes with up %d instances." %\
+          (max_types, max_nums))
     my_list = gen_node_list(max_types, max_nums)
-#    print("List before sort:")
-#    for element in my_list:
-#        element.print_fields()
-#    print("")
+
+    if VERBOSE:
+        print("List before sort:")
+        for element in my_list:
+            element.print_fields()
+        print("")
 
     my_list = sort_node_list(my_list)
-    print("Length of sorted list: %d" % len(my_list))
-    print("List after sort:")
-    for element in my_list:
-        element.print_fields()
-    print("")
 
+    if VERBOSE:
+        print("List after sort:")
+        for element in my_list:
+            element.print_fields()
+        print("")
+
+    print("Generating prefix tree and extracting db for prefix codes.")
     my_tree = gen_prefix_tree(my_list)
     my_codes = extract_prefix_codes(my_tree)
     
-    print("The generated node list:")
-    for element in my_list:
-        element.print_fields()
-    print("")
-    
-    print("The generated prefix tree:")
-    my_tree.print_fields()
-    print("")
+    if VERBOSE:
+        print("The generated node list:")
+        for element in my_list:
+            element.print_fields()
+        print("")
 
-    print("The corresponding prefix codes:")
     print_prefix_codes(my_codes)
-    print("")
 
 
 #-------------------------------------------------------------------
