@@ -88,7 +88,7 @@ class Node:
 # Given a prefix tree, extracts the prefix codes for all
 # leaves. The prefix codes are returned as a dictionary.
 #-------------------------------------------------------------------
-def extract_prefix_codes(tree):
+def extract_prefix_codes(ptree):
     return {}
 
 
