@@ -19,8 +19,13 @@ import argparse
 import sys
 
 
-# Debug flag.
-debug = True
+
+
+#-------------------------------------------------------------------
+# Constants.
+#-------------------------------------------------------------------
+VERBOSE = False
+DEBUG = True
 
 
 #-------------------------------------------------------------------
@@ -42,7 +47,7 @@ def huffman_encode(filename):
             byte = my_file.read(1)
             bytectr = bytectr + 1
             
-    if debug:
+    if DEBUG:
         print "Encode step one."
         print "Number of bytes read: %d" % bytectr
         print byte_freq
@@ -55,7 +60,7 @@ def huffman_encode(filename):
         if (byte_freq[i] > 0):
             alphabet.append([i, byte_freq[i], 0, 0, 0])
 
-    if debug:
+    if DEBUG:
         print "Number of symbols in the alphabet: %d" % len(alphabet)
         print "The collected alphabet with weighs:"
         print alphabet
