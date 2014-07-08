@@ -265,6 +265,21 @@ def huffman_decode(filename):
 
 
 #-------------------------------------------------------------------
+# gen_node_list()
+#
+# Generates a list of max_types numbder of nodes. Each tuple
+# contains a randomly selected frequency of a character from the
+# set of characters [chr(0) .. chr((max_types - 1))]
+#-------------------------------------------------------------------
+def gen_node_list(max_types, max_nums):
+    my_list = []
+    for i  in range(max_types):
+        my_node = Node(chr(i), random.randint(0,max_nums))
+        my_list.append(my_node)
+    return my_list
+
+
+#-------------------------------------------------------------------
 # main()
 #
 # Create an argument parser as needed to get input and output
