@@ -280,6 +280,52 @@ def gen_node_list(max_types, max_nums):
 
 
 #-------------------------------------------------------------------
+# test_huffman()
+#
+# Test mode. Generates data, builds prefix tree, performs
+# encoding and then decoding and presents the results.
+#-------------------------------------------------------------------
+def test_huffman():
+    print("Testing the Huffman encoder and decoder")
+    print("=======================================")
+    print
+
+    print("Generating a tuple based prefix tree.")
+    max_types = 255
+    max_nums  = int(1E8)
+
+    print("Generating %d nodes with up %d instances." %\
+          (max_types, max_nums))
+    my_list = gen_node_list(max_types, max_nums)
+
+    if VERBOSE:
+        print("List before sort:")
+        for element in my_list:
+            element.print_fields()
+        print("")
+
+    my_list = sort_node_list(my_list)
+
+    if VERBOSE:
+        print("List after sort:")
+        for element in my_list:
+            element.print_fields()
+        print("")
+
+    print("Generating prefix tree and extracting db for prefix codes.")
+    my_tree = gen_prefix_tree(my_list)
+    my_codes = extract_prefix_codes(my_tree)
+
+    if VERBOSE:
+        print("The generated node list:")
+        for element in my_list:
+            element.print_fields()
+        print("")
+
+    print_prefix_codes(my_codes)
+
+
+#-------------------------------------------------------------------
 # main()
 #
 # Create an argument parser as needed to get input and output
