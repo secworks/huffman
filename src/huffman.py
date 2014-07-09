@@ -27,6 +27,8 @@ import sys
 VERBOSE = False
 DEBUG = True
 
+VERSION = '0.1 Beta'
+
 
 #-------------------------------------------------------------------
 # class Node
@@ -333,13 +335,36 @@ def test_huffman():
 # encoding or decoding based on the given arguments.
 #-------------------------------------------------------------------
 def main():
-    # Create an argument parser with a file name reader.
     parser = argparse.ArgumentParser()
-    parser.add_argument ('-f', '--file', action='store')
-    filename = parser.parse_args().file
+
+    parser.add_argument('-i', '--infile',
+                        help='The input file to be encoded or decoded.')
+
+    parser.add_argument('-o', '--outfile',
+                        help='The outputfile the processed file data will be saved to.')
+
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='Enable verbose processing.')
+
+    parser.add_argument('-t', '--test', action='store_true',
+                        help='Perform test processing.')
+
+    parser.add_argument('-d', '--decode', action='store_true',
+                        help='Perform Huffman decoding.')
+
+    parser.add_argument('-e', '--encode', action='store_true',
+                        help='Perform Huffman encoding.')
+
+    parser.add_argument('--version', action='version', version=VERSION)
+
+    args = parser.parse_args()
+
+    if args.infile==None and not args.test:
+        print "Error: No input file given and not in test mode."
+        exit(1)
 
     # Call the decryption with the given filename.
-    huffman_encode(filename)
+    huffman_encode(args.infile)
 
 
 #-------------------------------------------------------------------
