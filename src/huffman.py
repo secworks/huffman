@@ -16,9 +16,8 @@
 # Imports.
 #-------------------------------------------------------------------
 import argparse
+import random
 import sys
-
-
 
 
 #-------------------------------------------------------------------
@@ -246,6 +245,7 @@ def huffman_encode(filename):
 
     elements_left = len(alphabet)
     while elements_left:
+        pass
         # Find the two elements with the least weight
 
     # 3. Create symbol table based on the tree
@@ -255,6 +255,7 @@ def huffman_encode(filename):
     # 5. Second pass. Read file and emit symbols.
 
     # 6. Done!
+    return 0
 
     
 #-------------------------------------------------------------------
@@ -263,7 +264,7 @@ def huffman_encode(filename):
 # Huffman decode a file with the given filename.
 #-------------------------------------------------------------------
 def huffman_decode(filename):
-    '''Decode huffman decoded file.'''
+    pass
 
 
 #-------------------------------------------------------------------
@@ -279,6 +280,17 @@ def gen_node_list(max_types, max_nums):
         my_node = Node(chr(i), random.randint(0,max_nums))
         my_list.append(my_node)
     return my_list
+
+
+
+#-------------------------------------------------------------------
+# encdec_huffman()
+#
+# Perform huffman encoding or decoding for the given infile
+# as given by the arguments.
+#-------------------------------------------------------------------
+def encdec_huffman(args):
+    pass
 
 
 #-------------------------------------------------------------------
@@ -363,8 +375,10 @@ def main():
         print "Error: No input file given and not in test mode."
         exit(1)
 
-    # Call the decryption with the given filename.
-    huffman_encode(args.infile)
+    if args.test:
+        test_huffman()
+    else:
+        huffman_encdec(args)
 
 
 #-------------------------------------------------------------------
