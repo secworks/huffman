@@ -49,7 +49,7 @@ import random
 #-------------------------------------------------------------------
 # Constants.
 #-------------------------------------------------------------------
-VERBOSE = False
+VERBOSE = True
 
 
 #-------------------------------------------------------------------
@@ -168,7 +168,7 @@ def sort_node_list(nlist):
             new_list.append(node)
         else:
             i = 0
-            while ((i < len(new_list) and (node.weight < new_list[i].weight))):
+            while ((i < len(new_list) and (node[1] < new_list[i][1]))):
                 i += 1
             new_list = new_list[:i] + [node] + new_list[i:]
 
@@ -237,7 +237,7 @@ def print_prefix_codes(prefix_codes):
 # (char, weight)
 #-------------------------------------------------------------------
 def gen_node_list(max_types, max_nums):
-    return [(chr(i), random.randint(0,max_nums)), for i in range(max_types)]
+    return [(i, random.randint(0,max_nums)) for i in range(max_types)]
 
 
 #-------------------------------------------------------------------
@@ -253,26 +253,22 @@ def main():
     print("====================================")
     print
     
-    max_types = 255
+    max_types = 256
     max_nums  = int(1E8)
 
     print("Generating %d nodes with up %d instances." %\
           (max_types, max_nums))
     my_list = gen_node_list(max_types, max_nums)
 
-#    if VERBOSE:
-#        print("List before sort:")
-#        for element in my_list:
-#            element.print_fields()
-#        print("")
-#
-#    my_list = sort_node_list(my_list)
-#
-#    if VERBOSE:
-#        print("List after sort:")
-#        for element in my_list:
-#            element.print_fields()
-#        print("")
+    if VERBOSE:
+        print("List before sort:")
+
+    my_list = sort_node_list(my_list)
+
+    if VERBOSE:
+        print("List after sort:")
+        print(my_list)
+        print("")
 #
 #    print("Generating prefix tree and extracting db for prefix codes.")
 #    my_tree = gen_prefix_tree(my_list)
