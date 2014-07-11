@@ -138,8 +138,8 @@ def gen_prefix_tree(nlist):
         node2 = nlist.pop()
 
         if VERBOSE:
-            print("node1 weigth: %d" % node1.weight)
-            print("node2 weigth: %d" % node2.weight)
+            print("node1 weigth: %d" % node1[1])
+            print("node2 weigth: %d" % node2[1])
 
         new_node = Node(None, (node1.weight + node2.weight))
         new_node.lchild = node1
@@ -234,10 +234,13 @@ def print_prefix_codes(prefix_codes):
 # set of characters [chr(0) .. chr((max_types - 1))]
 #
 # The nodes are tuples with the contents:
-# (char, weight)
+# (char, weight, left subtree, right subtree)
+#
+# For leaf nodes the subtrees are None. For all other nodes
+# the char is None."
 #-------------------------------------------------------------------
 def gen_node_list(max_types, max_nums):
-    return [(i, random.randint(0,max_nums)) for i in range(max_types)]
+    return [(i, random.randint(0,max_nums), None, None) for i in range(max_types)]
 
 
 #-------------------------------------------------------------------
