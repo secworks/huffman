@@ -141,10 +141,9 @@ def gen_prefix_tree(nlist):
             print("node1 weigth: %d" % node1[1])
             print("node2 weigth: %d" % node2[1])
 
-        new_node = Node(None, (node1.weight + node2.weight))
-        new_node.lchild = node1
-        new_node.rchild = node2
-        new_node.children = 2 + node1.children + node2.children
+        new_weight = node1[1] + node2[1]
+        new_children = 2 + node1[2] + node2[2]
+        new_node = (None, new_weight, new_children, node1, node2)
         nlist.append(new_node)
 
     return nlist.pop()
@@ -240,7 +239,7 @@ def print_prefix_codes(prefix_codes):
 # the char is None."
 #-------------------------------------------------------------------
 def gen_node_list(max_types, max_nums):
-    return [(i, random.randint(0,max_nums), None, None) for i in range(max_types)]
+    return [(i, random.randint(0,max_nums), 0, None, None) for i in range(max_types)]
 
 
 #-------------------------------------------------------------------
@@ -272,13 +271,14 @@ def main():
         print("List after sort:")
         print(my_list)
         print("")
-#
-#    print("Generating prefix tree and extracting db for prefix codes.")
-#    my_tree = gen_prefix_tree(my_list)
+
+    print("Generating prefix tree and extracting db for prefix codes.")
+    my_tree = gen_prefix_tree(my_list)
 #    my_codes = extract_prefix_codes(my_tree)
 #    
-#    if VERBOSE:
-#        print("The generated node list:")
+    if VERBOSE:
+        print("The generated node list:")
+        print(my_tree)
 #        for element in my_list:
 #            element.print_fields()
 #        print("")
