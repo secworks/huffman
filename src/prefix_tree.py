@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 #=======================================================================
 #
-# prefix_tuple_tree.py
+# prefix_tree.py
 # --------------------
-# An attempt at building a prefix tree using tuples in Python.
+# An attempt at building a prefix tree in Python.
+# This implementation uses a node class.
 #
 #
 # Author: Joachim Strömbergson
@@ -297,5 +298,5 @@ if __name__=="__main__":
     sys.exit(main())
 
 #=======================================================================
-# EOF prefix_tuple_tree.py
+# EOF prefix_tree.py
 #=======================================================================
