@@ -197,14 +197,14 @@ def print_prefix_codes(prefix_codes):
     num_prefix_bits = 0
 
     if VERBOSE:
-        print("The corresponding prefix codes:")
+        print("The generated prefix codes:")
     for key in prefix_codes:
         char = key
-        (prefix, weight) = prefix_codes[key]
+        (weight, prefix) = prefix_codes[key]
         num_prefix_bits += len(prefix) * weight
         num_raw_bits +=  weight * 8
         if VERBOSE:
-            print("Char: %c, prefix: %s, prefix length: %d, weight %d" %\
+            print("Char: %03d, prefix: %015s, prefix length: %02d, weight %010d" %\
                   (char, prefix, len(prefix), weight))
 
         if len(prefix) < min_len:
@@ -222,15 +222,15 @@ def print_prefix_codes(prefix_codes):
     reduction = int((1 - (num_prefix_bits / num_raw_bits)) * 100)
 
     print("")
-    print("Minimum prefix length %d for char %c and prefix %s with weight %d" %\
+    print("Minimum prefix length %02d for char %03d and prefix %015s with weight %010d" %\
           (min_len, min_char, min_prefix, min_weight))
-    print("Maximum prefix length %d for char %c and prefix %s with weight %d" %\
+    print("Maximum prefix length %02d for char %03d and prefix %015s with weight %010d" %\
           (max_len, max_char, max_prefix, max_weight))
 
     print("")
-    print("Total number of bits in raw data:             %d" % num_raw_bits)
-    print("Total number of bits to prefix code all data: %d" % num_prefix_bits)
-    print("Reduction:                                    %d percent" % reduction)
+    print("Total number of bits in raw data:             %016d" % num_raw_bits)
+    print("Total number of bits to prefix code all data: %016d" % num_prefix_bits)
+    print("Reduction:                                    %02d percent" % reduction)
     print("")
 
 
@@ -292,7 +292,7 @@ def main():
         print("The generated code db:")
         print(my_codes)
 
-#    print_prefix_codes(my_codes)
+    print_prefix_codes(my_codes)
 
 
 #-------------------------------------------------------------------
