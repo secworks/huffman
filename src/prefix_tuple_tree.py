@@ -90,16 +90,22 @@ class Node:
 # given node as well as for its subnodes.
 #-------------------------------------------------------------------
 def get_node_codes(prefix, ptree):
-    if ptree.char == None:
+    (char, weight, children, left_tree, right_tree) = ptree
+
+    if char == None:
         left_list = []
         right_list = []
-        if ptree.lchild != None:
-          left_list = get_node_codes(prefix + '1', ptree.lchild)
-        if ptree.rchild != None:
-          right_list = get_node_codes(prefix + '0', ptree.rchild)
+
+        if left_tree != None:
+          left_list = get_node_codes(prefix + '0', left_tree)
+
+        if right_tree != None:
+          right_list = get_node_codes(prefix + '1', right_tree)
+
         return left_list + right_list
+
     else:
-        return [(ptree.char, prefix, ptree.weight)]
+        return [(char, weight, prefix)]
 
 
 #-------------------------------------------------------------------
@@ -109,15 +115,18 @@ def get_node_codes(prefix, ptree):
 # leaves. The prefix codes are returned as a dictionary.
 #-------------------------------------------------------------------
 def extract_prefix_codes(ptree):
-    left_list = get_node_codes('1', ptree.lchild)
-    right_list = get_node_codes('0', ptree.rchild)
+    (char, weight, children, left_tree, right_tree) = ptree
+
+    left_list = get_node_codes('0', left_tree)
+    right_list = get_node_codes('1', right_tree)
+
     prefix_dict = {}
 
-    for (char, prefix, weight) in left_list:
-        prefix_dict[char] = (prefix, weight)
+    for (char, weight, prefix) in left_list:
+        prefix_dict[char] = (weight, prefix)
 
-    for (char, prefix, weight) in right_list:
-        prefix_dict[char] = (prefix, weight)
+    for (char, weight, prefix) in right_list:
+        prefix_dict[char] = (weight, prefix)
 
     return prefix_dict
 
@@ -263,26 +272,26 @@ def main():
     my_list = gen_node_list(max_types, max_nums)
 
     if VERBOSE:
-        print("List before sort:")
+        print("List of nodes before sort:")
 
     my_list = sort_node_list(my_list)
 
     if VERBOSE:
-        print("List after sort:")
+        print("List of nodes after sort:")
         print(my_list)
         print("")
 
     print("Generating prefix tree and extracting db for prefix codes.")
     my_tree = gen_prefix_tree(my_list)
-#    my_codes = extract_prefix_codes(my_tree)
-#    
     if VERBOSE:
-        print("The generated node list:")
+        print("The generated prefix tree:")
         print(my_tree)
-#        for element in my_list:
-#            element.print_fields()
-#        print("")
-#
+
+    my_codes = extract_prefix_codes(my_tree)
+    if VERBOSE:
+        print("The generated code db:")
+        print(my_codes)
+
 #    print_prefix_codes(my_codes)
 
 
