@@ -49,7 +49,7 @@ import random
 #-------------------------------------------------------------------
 # Constants.
 #-------------------------------------------------------------------
-VERBOSE = True
+VERBOSE = False
 
 
 #-------------------------------------------------------------------
@@ -267,7 +267,7 @@ def main():
     max_types = 256
     max_nums  = int(1E8)
 
-    print("Generating %d nodes with up %d instances." %\
+    print("Generating %d nodes with up to %d instances." %\
           (max_types, max_nums))
     my_list = gen_node_list(max_types, max_nums)
 
