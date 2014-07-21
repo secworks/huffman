@@ -300,41 +300,37 @@ def encdec_huffman(args):
 # encoding and then decoding and presents the results.
 #-------------------------------------------------------------------
 def test_huffman():
-    print("Testing the Huffman encoder and decoder")
-    print("=======================================")
+    print("Generating a tuple based prefix tree")
+    print("====================================")
     print
 
-    print("Generating a tuple based prefix tree.")
-    max_types = 255
+    max_types = 256
     max_nums  = int(1E8)
 
-    print("Generating %d nodes with up %d instances." %\
+    print("Generating %d nodes with up to %d instances." %\
           (max_types, max_nums))
     my_list = gen_node_list(max_types, max_nums)
 
     if VERBOSE:
-        print("List before sort:")
-        for element in my_list:
-            element.print_fields()
-        print("")
+        print("List of nodes before sort:")
 
     my_list = sort_node_list(my_list)
 
     if VERBOSE:
-        print("List after sort:")
-        for element in my_list:
-            element.print_fields()
+        print("List of nodes after sort:")
+        print(my_list)
         print("")
 
     print("Generating prefix tree and extracting db for prefix codes.")
     my_tree = gen_prefix_tree(my_list)
-    my_codes = extract_prefix_codes(my_tree)
-
     if VERBOSE:
-        print("The generated node list:")
-        for element in my_list:
-            element.print_fields()
-        print("")
+        print("The generated prefix tree:")
+        print(my_tree)
+
+    my_codes = extract_prefix_codes(my_tree)
+    if VERBOSE:
+        print("The generated code db:")
+        print(my_codes)
 
     print_prefix_codes(my_codes)
 
