@@ -53,37 +53,6 @@ VERBOSE = False
 
 
 #-------------------------------------------------------------------
-# class Node
-#
-# Our basic node class (struct) used to create the tree.
-#-------------------------------------------------------------------
-class Node:
-    def __init__(self, char, weight):
-        self.char = char
-        self.weight = weight
-        self.lchild = None
-        self.rchild = None
-        self.children = 0
-
-    def print_fields(self):
-        if self.char != None:
-            print("Char: %c, weight = %d" % (self.char, self.weight))
-        else:
-            print("Inner node with %d children and total weight %d" %\
-                  (self.children, self.weight))
-
-        if self.lchild != None:
-            print("Left child contains subtree")
-        else:
-            print("Left child contains no subtree")
-
-        if self.rchild != None:
-            print("Right child contains subtree")
-        else:
-            print("Right child contains no subtree")
-
-
-#-------------------------------------------------------------------
 # get_node_codes()
 #
 # Get a list of tuples with the prefix codes for a char in a
