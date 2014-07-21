@@ -60,7 +60,6 @@ class Node:
             print("Right child contains no subtree")
 
 
-
 #-------------------------------------------------------------------
 # get_node_codes()
 #
@@ -68,16 +67,22 @@ class Node:
 # given node as well as for its subnodes.
 #-------------------------------------------------------------------
 def get_node_codes(prefix, ptree):
-    if ptree.char == None:
+    (char, weight, children, left_tree, right_tree) = ptree
+
+    if char == None:
         left_list = []
         right_list = []
-        if ptree.lchild != None:
-          left_list = get_node_codes(prefix + '1', ptree.lchild)
-        if ptree.rchild != None:
-          right_list = get_node_codes(prefix + '0', ptree.rchild)
+
+        if left_tree != None:
+          left_list = get_node_codes(prefix + '0', left_tree)
+
+        if right_tree != None:
+          right_list = get_node_codes(prefix + '1', right_tree)
+
         return left_list + right_list
+
     else:
-        return [(ptree.char, prefix, ptree.weight)]
+        return [(char, weight, prefix)]
 
 
 #-------------------------------------------------------------------
