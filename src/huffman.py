@@ -116,13 +116,12 @@ def gen_prefix_tree(nlist):
         node2 = nlist.pop()
 
         if VERBOSE:
-            print("node1 weigth: %d" % node1.weight)
-            print("node2 weigth: %d" % node2.weight)
+            print("node1 weigth: %d" % node1[1])
+            print("node2 weigth: %d" % node2[1])
 
-        new_node = Node(None, (node1.weight + node2.weight))
-        new_node.lchild = node1
-        new_node.rchild = node2
-        new_node.children = 2 + node1.children + node2.children
+        new_weight = node1[1] + node2[1]
+        new_children = 2 + node1[2] + node2[2]
+        new_node = (None, new_weight, new_children, node1, node2)
         nlist.append(new_node)
 
     return nlist.pop()
