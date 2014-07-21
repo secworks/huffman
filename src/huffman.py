@@ -87,15 +87,18 @@ def get_node_codes(prefix, ptree):
 # leaves. The prefix codes are returned as a dictionary.
 #-------------------------------------------------------------------
 def extract_prefix_codes(ptree):
-    left_list = get_node_codes('1', ptree.lchild)
-    right_list = get_node_codes('0', ptree.rchild)
+    (char, weight, children, left_tree, right_tree) = ptree
+
+    left_list = get_node_codes('0', left_tree)
+    right_list = get_node_codes('1', right_tree)
+
     prefix_dict = {}
 
-    for (char, prefix, weight) in left_list:
-        prefix_dict[char] = (prefix, weight)
+    for (char, weight, prefix) in left_list:
+        prefix_dict[char] = (weight, prefix)
 
-    for (char, prefix, weight) in right_list:
-        prefix_dict[char] = (prefix, weight)
+    for (char, weight, prefix) in right_list:
+        prefix_dict[char] = (weight, prefix)
 
     return prefix_dict
 
