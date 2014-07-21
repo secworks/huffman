@@ -146,7 +146,7 @@ def sort_node_list(nlist):
             new_list.append(node)
         else:
             i = 0
-            while ((i < len(new_list) and (node.weight < new_list[i].weight))):
+            while ((i < len(new_list) and (node[1] < new_list[i][1]))):
                 i += 1
             new_list = new_list[:i] + [node] + new_list[i:]
 
