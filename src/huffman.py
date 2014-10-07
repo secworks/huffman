@@ -23,7 +23,7 @@ import sys
 #-------------------------------------------------------------------
 # Constants.
 #-------------------------------------------------------------------
-VERBOSE = False
+VERBOSE = True
 DEBUG = True
 
 VERSION = '0.1 Beta'
@@ -111,12 +111,13 @@ def gen_prefix_tree(nlist):
 # sorted by weight in decreasing order.
 #-------------------------------------------------------------------
 def sort_node_list(nlist):
+    tmp_nlist = nlist[:]
     nodes = 0
     new_list = []
     if VERBOSE:
-        print("Length of given list: %d" % len(nlist))
-    for i in range(len(nlist)):
-        node = nlist.pop()
+        print("Length of given list: %d" % len(tmp_nlist))
+    for i in range(len(tmp_nlist)):
+        node = tmp_nlist.pop()
         nodes += 1
         if len(new_list) == 0:
             new_list.append(node)
@@ -274,6 +275,9 @@ def gen_node_list(max_types, max_nums):
 def gen_encoded_list(my_list, my_codes):
     print("Encoding the given list of nodes with the given codes.")
 
+    # print my_list
+    # print my_codes
+
     my_enclist = []
     for node in my_list:
         print node
@@ -308,30 +312,30 @@ def test_huffman():
     print("Generating %d nodes with up to %d instances." %\
           (max_types, max_nums))
     my_list = gen_node_list(max_types, max_nums)
-
     if VERBOSE:
         print("List of nodes before sort:")
-
-    my_list = sort_node_list(my_list)
-
-    if VERBOSE:
-        print("List of nodes after sort:")
         print(my_list)
         print("")
 
-    print("Generating prefix tree and extracting db for prefix codes.")
-    my_tree = gen_prefix_tree(my_list)
+    my_sorted_list = sort_node_list(my_list)
     if VERBOSE:
+        print("List of nodes after sort:")
+        print(my_sorted_list)
+        print("")
+
+    print("Generating prefix tree and extracting db for prefix codes.")
+    my_tree = gen_prefix_tree(my_sorted_list)
+    if VERBOSE:
+        print("")
         print("The generated prefix tree:")
         print(my_tree)
+        print("")
 
     my_codes = extract_prefix_codes(my_tree)
     if VERBOSE:
         print("The generated code db:")
         print(my_codes)
-
-    print_prefix_codes(my_codes)
-
+        print("")
 
     my_encoded_list = gen_encoded_list(my_list, my_codes)
 
