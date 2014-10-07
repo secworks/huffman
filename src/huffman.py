@@ -200,7 +200,7 @@ def huffman_encode(filename):
             byte_freq[byteval] = byte_freq[byteval] + 1
             byte = my_file.read(1)
             bytectr = bytectr + 1
-            
+
     if DEBUG:
         print "Encode step one."
         print "Number of bytes read: %d" % bytectr
@@ -227,13 +227,13 @@ def huffman_encode(filename):
     # 3. Create symbol table based on the tree
 
     # 4. Emit symbol table as header for file.
-    
+
     # 5. Second pass. Read file and emit symbols.
 
     # 6. Done!
     return 0
 
-    
+
 #-------------------------------------------------------------------
 # huffman_decode()
 #
@@ -258,6 +258,27 @@ def huffman_decode(filename):
 #-------------------------------------------------------------------
 def gen_node_list(max_types, max_nums):
     return [(i, random.randint(0,max_nums), 0, None, None) for i in range(max_types)]
+
+
+#-------------------------------------------------------------------
+# gen_encoded_list()
+#
+# Given a lis of nodes and a database of codes returns a list
+# of the values in the list of nodes encoded using the
+# given codes.
+#
+# Note that the list really don't have to correspond to the
+# given list. But unless all values in the list have a
+# corresponding code, the encoding will fail.
+#-------------------------------------------------------------------
+def gen_encoded_list(my_list, my_codes):
+    print("Encoding the given list of nodes with the given codes.")
+
+    my_enclist = []
+    for node in my_list:
+        print node
+
+    return my_enclist
 
 
 #-------------------------------------------------------------------
@@ -312,6 +333,9 @@ def test_huffman():
     print_prefix_codes(my_codes)
 
 
+    my_encoded_list = gen_encoded_list(my_list, my_codes)
+
+
 #-------------------------------------------------------------------
 # main()
 #
@@ -359,7 +383,7 @@ def main():
 # Python thingy which allows the file to be run standalone as
 # well as parsed from within a Python interpreter.
 #-------------------------------------------------------------------
-if __name__=="__main__": 
+if __name__=="__main__":
     # Run the main function.
     sys.exit(main())
 
