@@ -255,6 +255,79 @@ def load_file(filename):
 
 
 #-------------------------------------------------------------------
+# test_file()
+#
+# Test the functionality using a real file.
+#-------------------------------------------------------------------
+def test_file():
+    my_bytestring = load_file("prefix_tuple_tree.py")
+    print("My file data:")
+    print(my_bytestring)
+    print("")
+
+    my_list = gen_node_list(my_bytestring)
+    print("Nodelist from the file")
+    print(my_list)
+
+    my_sorted_list = sort_node_list(my_list)
+
+    if VERBOSE:
+        print("List of nodes after sort:")
+        print(my_sorted_list)
+        print("")
+
+    print("Generating prefix tree and extracting db for prefix codes.")
+    my_tree = gen_prefix_tree(my_sorted_list)
+    if VERBOSE:
+        print("The generated prefix tree:")
+        print(my_tree)
+
+    my_codes = extract_prefix_codes(my_tree)
+    if VERBOSE:
+        print("The generated code db:")
+        print(my_codes)
+
+    print_prefix_codes(my_codes)
+
+
+#-------------------------------------------------------------------
+# test_synthetic()
+#
+# Test functionality baed on synthetic data.
+#-------------------------------------------------------------------
+def test_synthetic():
+    max_types = 256
+    max_nums  = int(1E8)
+
+    print("Generating %d nodes with up to %d instances." %\
+          (max_types, max_nums))
+    my_list = gen_random_node_list(max_types, max_nums)
+
+    if VERBOSE:
+        print("List of nodes before sort:")
+
+    my_sorted_list = sort_node_list(my_list)
+
+    if VERBOSE:
+        print("List of nodes after sort:")
+        print(my_sorted_list)
+        print("")
+
+    print("Generating prefix tree and extracting db for prefix codes.")
+    my_tree = gen_prefix_tree(my_sorted_list)
+    if VERBOSE:
+        print("The generated prefix tree:")
+        print(my_tree)
+
+    my_codes = extract_prefix_codes(my_tree)
+    if VERBOSE:
+        print("The generated code db:")
+        print(my_codes)
+
+    print_prefix_codes(my_codes)
+
+
+#-------------------------------------------------------------------
 # main()
 #
 # Generates a list of different (frequency, char) tuples and feed
@@ -267,45 +340,8 @@ def main():
     print("====================================")
     print
 
-    max_types = 256
-    max_nums  = int(1E8)
+    test_file()
 
-    my_bytestring = load_file("prefix_tuple_tree.py")
-    print("My file data:")
-    print(my_bytestring)
-    print("")
-
-    my_list = gen_node_list(my_bytestring)
-    print("Nodelist from the file")
-    print(my_list)
-
-
-#    print("Generating %d nodes with up to %d instances." %\
-#          (max_types, max_nums))
-#    my_list = gen_random_node_list(max_types, max_nums)
-#
-#    if VERBOSE:
-#        print("List of nodes before sort:")
-#
-#    my_list = sort_node_list(my_list)
-#
-#    if VERBOSE:
-#        print("List of nodes after sort:")
-#        print(my_list)
-#        print("")
-#
-#    print("Generating prefix tree and extracting db for prefix codes.")
-#    my_tree = gen_prefix_tree(my_list)
-#    if VERBOSE:
-#        print("The generated prefix tree:")
-#        print(my_tree)
-#
-#    my_codes = extract_prefix_codes(my_tree)
-#    if VERBOSE:
-#        print("The generated code db:")
-#        print(my_codes)
-#
-#    print_prefix_codes(my_codes)
 
 
 #-------------------------------------------------------------------
