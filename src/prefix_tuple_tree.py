@@ -204,9 +204,23 @@ def print_prefix_codes(prefix_codes):
 
 
 #-------------------------------------------------------------------
-# gen_node_list()
+# gen_random_node_list()
 #
-# Generates a list of max_types numbder of nodes. Each tuple
+# Generates a list of max_types number of nodes. Each tuple
+# contains a randomly selected frequency of a character from the
+# set of characters [chr(0) .. chr((max_types - 1))]
+#
+# The nodes are tuples with the contents:
+# (char, weight, None, None)
+#-------------------------------------------------------------------
+def gen_random_node_list(max_types, max_nums):
+    return [(i, random.randint(0,max_nums), 0, None, None) for i in range(max_types)]
+
+
+#-------------------------------------------------------------------
+# gen_node_list(bytestring)
+#
+# Generates a list of nodes based on the given string.
 # contains a randomly selected frequency of a character from the
 # set of characters [chr(0) .. chr((max_types - 1))]
 #
@@ -216,8 +230,18 @@ def print_prefix_codes(prefix_codes):
 # For leaf nodes the subtrees are None. For all other nodes
 # the char is None."
 #-------------------------------------------------------------------
-def gen_node_list(max_types, max_nums):
-    return [(i, random.randint(0,max_nums), 0, None, None) for i in range(max_types)]
+def gen_node_list(bytestring):
+    freq_list = [0] * 256
+
+    for ch in bytestring:
+        freq_list[ord(ch)] += 1
+
+    node_list = []
+    for i in range(256):
+        if  freq_list[i] > 0:
+            node_list.append((i, freq_list[i], None, None))
+
+    return node_list
 
 
 #-------------------------------------------------------------------
@@ -236,32 +260,35 @@ def main():
     max_types = 256
     max_nums  = int(1E8)
 
-    print("Generating %d nodes with up to %d instances." %\
-          (max_types, max_nums))
-    my_list = gen_node_list(max_types, max_nums)
+    my_bytestring = load_file("prefix_tuple_tree.py")
+    my_list = gen_node_list(my_bytestring)
 
-    if VERBOSE:
-        print("List of nodes before sort:")
-
-    my_list = sort_node_list(my_list)
-
-    if VERBOSE:
-        print("List of nodes after sort:")
-        print(my_list)
-        print("")
-
-    print("Generating prefix tree and extracting db for prefix codes.")
-    my_tree = gen_prefix_tree(my_list)
-    if VERBOSE:
-        print("The generated prefix tree:")
-        print(my_tree)
-
-    my_codes = extract_prefix_codes(my_tree)
-    if VERBOSE:
-        print("The generated code db:")
-        print(my_codes)
-
-    print_prefix_codes(my_codes)
+#    print("Generating %d nodes with up to %d instances." %\
+#          (max_types, max_nums))
+#    my_list = gen_random_node_list(max_types, max_nums)
+#
+#    if VERBOSE:
+#        print("List of nodes before sort:")
+#
+#    my_list = sort_node_list(my_list)
+#
+#    if VERBOSE:
+#        print("List of nodes after sort:")
+#        print(my_list)
+#        print("")
+#
+#    print("Generating prefix tree and extracting db for prefix codes.")
+#    my_tree = gen_prefix_tree(my_list)
+#    if VERBOSE:
+#        print("The generated prefix tree:")
+#        print(my_tree)
+#
+#    my_codes = extract_prefix_codes(my_tree)
+#    if VERBOSE:
+#        print("The generated code db:")
+#        print(my_codes)
+#
+#    print_prefix_codes(my_codes)
 
 
 #-------------------------------------------------------------------
