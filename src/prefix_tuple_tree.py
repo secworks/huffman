@@ -255,6 +255,22 @@ def load_file(filename):
 
 
 #-------------------------------------------------------------------
+# encode_string()
+#
+# Encode the given string using the prefix codes in the
+# given db.
+#-------------------------------------------------------------------
+def bitencode_string(src_string, code_db):
+    enc_string = ""
+
+    for ch in src_string:
+        (weight, prefix_str) = code_db[ch]
+        enc_string += prefix_str
+
+    return enc_string
+
+
+#-------------------------------------------------------------------
 # test_file()
 #
 # Test the functionality using a real file.
@@ -288,6 +304,11 @@ def test_file():
         print(my_codes)
 
     print_prefix_codes(my_codes)
+    my_bitenc_string = bitencode_string(my_bytestring, my_codes)
+
+    if VERBOSE:
+        print("The bitencoded bytestring:")
+        print(my_bitenc_string)
 
 
 #-------------------------------------------------------------------
