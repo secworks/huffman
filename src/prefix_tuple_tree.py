@@ -271,6 +271,29 @@ def bitencode_string(src_string, code_db):
 
 
 #-------------------------------------------------------------------
+# gen_bytestring()
+#-------------------------------------------------------------------
+def gen_bytestring(bitstring):
+    num_bytes = int(len(bitstring) / 8)
+    my_bytes = [bitstring[0+i:8+i] for i in range(0, len(bitstring), 8)]
+    print(my_bytes)
+
+    my_bytestring = ""
+    for ch in my_bytes:
+        my_bytestring += chr(int(ch, 2))
+
+    return my_bytestring
+
+
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def save_file(filename, bytestring):
+    with open (filename, 'wb') as f:
+        for ch in bytestring:
+            f.write(ch.encode('latin-1'))
+
+
+#-------------------------------------------------------------------
 # test_file()
 #
 # Test the functionality using a real file.
@@ -309,6 +332,10 @@ def test_file():
     if VERBOSE:
         print("The bitencoded bytestring:")
         print(my_bitenc_string)
+
+    my_bytestring = gen_bytestring(my_bitenc_string)
+
+    save_file("test_file.huff", my_bytestring)
 
 
 #-------------------------------------------------------------------
