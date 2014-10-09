@@ -239,7 +239,7 @@ def gen_node_list(bytestring):
     node_list = []
     for i in range(256):
         if  freq_list[i] > 0:
-            node_list.append((i, freq_list[i], None, None))
+            node_list.append((i, freq_list[i], 0, None, None))
 
     return node_list
 
