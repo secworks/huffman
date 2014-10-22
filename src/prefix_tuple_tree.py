@@ -53,6 +53,26 @@ VERBOSE = True
 
 
 #-------------------------------------------------------------------
+# Given a file name will try to load the contents of the file
+# into a string.
+#-------------------------------------------------------------------
+def load_file(filename):
+    with open (filename, 'rb') as f:
+        file_data = f.read()
+    return file_data
+
+
+#-------------------------------------------------------------------
+# save_file()
+#
+# Save the given string to a file with the given name.
+#-------------------------------------------------------------------
+def save_file(filename, bytestring):
+    with open (filename, 'wb') as f:
+        for ch in bytestring:
+            f.write(ch.encode('latin-1'))
+
+#-------------------------------------------------------------------
 # get_node_codes()
 #
 # Get a list of tuples with the prefix codes for a char in a
@@ -245,16 +265,6 @@ def gen_node_list(bytestring):
 
 
 #-------------------------------------------------------------------
-# Given a file name will try to load the contents of the file
-# into a string.
-#-------------------------------------------------------------------
-def load_file(filename):
-    with open (filename, 'rb') as f:
-        file_data = f.read()
-    return file_data
-
-
-#-------------------------------------------------------------------
 # encode_string()
 #
 # Encode the given string using the prefix codes in the
@@ -271,6 +281,22 @@ def bitencode_string(src_string, code_db):
 
 
 #-------------------------------------------------------------------
+# decode_string()
+#
+# Decode the given string using the given database.
+#-------------------------------------------------------------------
+def decode_string(src_string, code_db):
+    for ch in src_string:
+        bistring = ""
+        for i in range(8):
+            my_bit = (ord(ch) >> 8) & 0x01
+            ch = (ch << 1) & 0xff
+            bitstring.append(my_bit)
+
+        print("Char: 0x%02x, bitstring: %s" % (ord(ch), bitstring))
+
+
+#-------------------------------------------------------------------
 # gen_bytestring()
 #-------------------------------------------------------------------
 def gen_bytestring(bitstring):
@@ -283,14 +309,6 @@ def gen_bytestring(bitstring):
         my_bytestring += chr(int(ch, 2))
 
     return my_bytestring
-
-
-#-------------------------------------------------------------------
-#-------------------------------------------------------------------
-def save_file(filename, bytestring):
-    with open (filename, 'wb') as f:
-        for ch in bytestring:
-            f.write(ch.encode('latin-1'))
 
 
 #-------------------------------------------------------------------
