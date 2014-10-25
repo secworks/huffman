@@ -394,6 +394,27 @@ def test_synthetic():
 
 
 #-------------------------------------------------------------------
+# test_bitshift()
+#
+# Test function to see how we can extract bits from chars in
+# a given string.
+#-------------------------------------------------------------------
+def test_bitshift(my_string):
+    for ch in my_string:
+        chval = ord(ch)
+        bitstring = ""
+        for i in range(8):
+            my_bit = (chval >> 8) & 0x01
+            chval = (chval << 1) & 0xff
+            if chval:
+                bitstring+= '1'
+            else:
+                bitstring+= '0'
+
+        print("Char: '%c,' = 0x%02x = %s" % (ch, ord(ch), bitstring))
+
+
+#-------------------------------------------------------------------
 # main()
 #
 # Generates a list of different (frequency, char) tuples and feed
@@ -406,7 +427,10 @@ def main():
     print("====================================")
     print
 
-    test_file()
+    my_string = "All your base are belong to us."
+    test_bitshift(my_string)
+
+    # test_file()
 
 
 
