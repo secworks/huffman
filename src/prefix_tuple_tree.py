@@ -405,12 +405,12 @@ def test_bitshift(my_string):
         chval = ord(ch)
         bitstring = ""
         for i in range(8):
-            my_bit = (chval >> 8) & 0x01
-            chval = (chval << 1) & 0xff
-            if chval:
-                bitstring+= '1'
+            my_bit = chval & 0x01
+            chval = chval >> 1
+            if my_bit:
+                bitstring += '1'
             else:
-                bitstring+= '0'
+                bitstring += '0'
 
         print("Char: '%c,' = 0x%02x = %s" % (ch, ord(ch), bitstring))
 
