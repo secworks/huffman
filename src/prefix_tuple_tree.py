@@ -408,9 +408,9 @@ def test_bitshift(my_string):
             my_bit = chval & 0x01
             chval = chval >> 1
             if my_bit:
-                bitstring += '1'
+                bitstring = '1' + bitstring
             else:
-                bitstring += '0'
+                bitstring = '0' + bitstring
 
         print("Char: '%c,' = 0x%02x = %s" % (ch, ord(ch), bitstring))
 
