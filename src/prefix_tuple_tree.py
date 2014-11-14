@@ -50,7 +50,8 @@ import binascii
 #-------------------------------------------------------------------
 # Constants.
 #-------------------------------------------------------------------
-VERBOSE = True
+VERBOSE = False
+DUMP_FREQS = False
 
 
 #-------------------------------------------------------------------
@@ -257,6 +258,10 @@ def gen_node_list(bytestring):
     for ch in bytestring:
         freq_list[ch] += 1
 
+    if (DUMP_FREQS):
+        for i in range(256):
+            print("Freq Char 0x%02x = 0x%08x" % (i, freq_list[i]))
+
     node_list = []
     for i in range(256):
         if  freq_list[i] > 0:
@@ -431,7 +436,7 @@ def main():
     my_string = "All your base are belong to us."
     test_bitshift(my_string)
 
-    # test_file()
+#    test_file()
 
 
 
